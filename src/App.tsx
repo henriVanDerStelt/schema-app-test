@@ -86,7 +86,7 @@ function App() {
           type="number"
           inputMode="decimal"
           placeholder="Reps"
-          value={weight === 0 ? "" : weight}
+          value={reps === 0 ? "" : reps}
           onChange={(e) => setReps(Number(e.target.value))}
         />
         <br />
@@ -96,7 +96,7 @@ function App() {
           type="number"
           inputMode="decimal"
           placeholder="RPE"
-          value={weight === 0 ? "" : weight}
+          value={rpe === 0 ? "" : rpe}
           onChange={(e) => setRpe(Number(e.target.value))}
         />
         <br />
