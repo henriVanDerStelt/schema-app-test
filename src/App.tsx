@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
+import "./App.css";
 
 interface Workout {
   id: number;
@@ -53,40 +54,58 @@ function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>🏋️ My Workouts</h2>
-      <p>This is a test!</p>
-      <label>Exercise name: </label>
-      <input
-        id="name"
-        placeholder="Exercise name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <label>Weight: </label>
-      <input
-        id="weight"
-        type="number"
-        placeholder="Weight (kg)"
-        value={weight}
-        onChange={(e) => setWeight(Number(e.target.value))}
-      />
-      <label>Reps: </label>
-      <input
-        id="reps"
-        type="number"
-        placeholder="Reps"
-        value={reps}
-        onChange={(e) => setReps(Number(e.target.value))}
-      />
-      <label>RPE: </label>
-      <input
-        id="rpe"
-        type="number"
-        placeholder="RPE"
-        value={rpe}
-        onChange={(e) => setRpe(Number(e.target.value))}
-      />
-      <button onClick={addWorkout}>Add Workout</button>
+      <div>
+        <h1>🏋️ My Workouts</h1>
+        <h3>This is a test!</h3>
+      </div>
+
+      <div className="divider" />
+
+      <div>
+        <label>Exercise name: </label>
+        <input
+          className="name"
+          placeholder="Exercise name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <br />
+        <label>Weight: </label>
+        <input
+          className="weight"
+          type="number"
+          inputMode="decimal"
+          placeholder="Weight (kg)"
+          value={weight === 0 ? "" : weight}
+          onChange={(e) => setWeight(Number(e.target.value))}
+        />
+        <br />
+        <label>Reps: </label>
+        <input
+          className="reps"
+          type="number"
+          inputMode="decimal"
+          placeholder="Reps"
+          value={weight === 0 ? "" : weight}
+          onChange={(e) => setReps(Number(e.target.value))}
+        />
+        <br />
+        <label>RPE: </label>
+        <input
+          className="rpe"
+          type="number"
+          inputMode="decimal"
+          placeholder="RPE"
+          value={weight === 0 ? "" : weight}
+          onChange={(e) => setRpe(Number(e.target.value))}
+        />
+        <br />
+        <button onClick={addWorkout}>Add Set</button>
+      </div>
+
+      <div className="divider" />
+
+      <h2>Recent Sets:</h2>
 
       <ul>
         {workouts.map((w) => (

@@ -40,3 +40,16 @@
 .read-the-docs {
   color: #888;
 }
+
+.divider {
+  height: 1px;
+  background-color: #ccc;
+  margin: 20px 0; /* 20px boven en onder de lijn */
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  margin: 10px 0; /* 10px boven en onder elk element */
+}
