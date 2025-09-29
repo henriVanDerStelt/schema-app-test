@@ -53,7 +53,7 @@ function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h3>🏋️ My Workouts</h3>
+      <h2>🏋️ My Workouts</h2>
       <p>This is a test!</p>
       <label>Exercise name: </label>
       <input
