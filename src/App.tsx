@@ -17,8 +17,8 @@ function App() {
   return (
     <>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-        <Navbar />
         <Router>
+          <Navbar />
           <Routes>
             <Route path="/schema-app-test/" element={<Index />} />
             <Route path="/schema-app-test/login" element={<Login />} />

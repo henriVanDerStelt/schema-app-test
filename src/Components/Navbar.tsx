@@ -1,27 +1,37 @@
+import { useState, type JSX } from "react";
 import "./Navbar.css";
-
-import { type JSX } from "react";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 function Navbar(): JSX.Element {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="navbar">
+    <nav className="navbar">
       <h2>
         <span>Workout</span> tracker.
       </h2>
-      <div className="links">
-        <a href="/schema-app-test/">Home</a>
-        <a href="/schema-app-test/dashboard">Dashboard</a>
-      </div>
-      <div className="user-section">
+
+      {/* Hamburger knop voor mobiel */}
+      <button
+        className="hamburger"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle menu"
+      >
+        ☰
+      </button>
+
+      <div className={`links ${isOpen ? "open" : ""}`}>
+        <Link to="/schema-app-test/">Home</Link>
+        <Link to="/schema-app-test/dashboard">Dashboard</Link>
         <SignedIn>
           <UserButton />
         </SignedIn>
         <SignedOut>
-          <a href="/schema-app-test/login">Sign In</a>
+          <Link to="/schema-app-test/login">Sign In</Link>
         </SignedOut>
       </div>
-    </div>
+    </nav>
   );
 }
 
