@@ -6,11 +6,17 @@ import "./Navbar.css";
 function Navbar(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
 
-  // Sluit menu als ergens buiten geklikt wordt
+  // Sluit menu als ergens buiten geklikt wordt, maar niet op hamburger
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        hamburgerRef.current &&
+        !hamburgerRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     }
@@ -26,16 +32,19 @@ function Navbar(): JSX.Element {
     };
   }, [isOpen]);
 
-  // Sluit menu bij link click
   const handleLinkClick = () => setIsOpen(false);
 
   return (
     <nav className="navbar">
-      <h2>
-        <span>Workout</span> tracker.
-      </h2>
+      <a href="/schema-app-test/" className="logo">
+        <h2>
+          <span className="funky">Workout</span>{" "}
+          <span className="normal">tracker</span>
+        </h2>
+      </a>
 
       <button
+        ref={hamburgerRef}
         className="hamburger"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
