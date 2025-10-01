@@ -29,5 +29,5 @@ export default defineConfig({
       }
     })
   ],
-  base: '/schema-app-test/' // je repo naam
+  base: '/schema-app-test/'
 })
