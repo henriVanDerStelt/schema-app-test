@@ -1,0 +1,80 @@
+.schedules-navbar {
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 4rem;
+  background: rgba(22, 22, 25, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #eee;
+  top: 59.5px;
+  position: sticky;
+  border-bottom: rgba(136, 136, 136, 0.2) 0.5px solid;
+}
+
+.path-indicator {
+  display: flex;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.path-indicator a {
+  text-decoration: none;
+  color: #ddd;
+  margin-right: 5px;
+  transition: color 0.3s;
+  font-size: 1.1rem;
+    font-weight: 100;
+}
+
+.path-indicator a:hover {
+  text-decoration: underline;
+}
+
+.path-indicator a:not(:last-child)::after {
+  content: " /";
+  color: #999;
+  margin: 5px 20px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px; /* space between buttons */
+    align-items: center; /* vertical alignment */
+}
+
+.add-workout {
+    background: linear-gradient(90deg, #6C47FF, #8f17ff);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* easier than 15px */
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px; /* adjust size of the + */
+    border: none;
+    padding: 0;
+}
+
+.add-workout:hover {
+    box-shadow: 0px 0px 10px #8f17ff;
+}
+
+.start {
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.start:hover {
+    color: #6C47FF;
+}

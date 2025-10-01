@@ -56,7 +56,7 @@ function Navbar(): JSX.Element {
         <Link to="/schema-app-test/" onClick={handleLinkClick}>
           Home
         </Link>
-        <Link to="/schema-app-test/" onClick={handleLinkClick}>
+        <Link to="/schema-app-test/schedules" onClick={handleLinkClick}>
           Schedules
         </Link>
         <Link to="/schema-app-test/dashboard" onClick={handleLinkClick}>
