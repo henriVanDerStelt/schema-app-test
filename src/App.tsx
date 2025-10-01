@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 import Index from "./Pages/Index/Index";
 import Login from "./Pages/Login/Login";
 import Dashboard from "./Pages/Dashboard/Dashboard";
@@ -18,12 +19,20 @@ function App() {
     <>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
         <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/schema-app-test/" element={<Index />} />
-            <Route path="/schema-app-test/login" element={<Login />} />
-            <Route path="/schema-app-test/dashboard" element={<Dashboard />} />
-          </Routes>
+          <div className="app-layout">
+            <Navbar />
+            <main className="main-content">
+              <Routes>
+                <Route path="/schema-app-test/" element={<Index />} />
+                <Route path="/schema-app-test/login" element={<Login />} />
+                <Route
+                  path="/schema-app-test/dashboard"
+                  element={<Dashboard />}
+                />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
         </Router>
       </ClerkProvider>
     </>

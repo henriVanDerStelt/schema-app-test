@@ -3,11 +3,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 2rem;
-  background-color: #161619;
+  padding: 0.5rem 4rem;
+  background: rgba(22, 22, 25, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #eee;
-  position: relative;
-  border-bottom: #88888866 0.3px solid;
+  top: 0;
+  position: sticky;
+  border-bottom: rgba(136, 136, 136, 0.2) 0.5px solid;
 }
 
 .navbar h2 {
@@ -19,7 +22,7 @@
 .navbar h2 .funky {
   font-weight: 500;
   font-size: 1.8rem;
-  background: linear-gradient(90deg, #6C47FF, #cd17ff);
+  background: linear-gradient(90deg, #6C47FF, #8f17ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -31,7 +34,7 @@
 
 /* make the logo glow */
 .logo:hover .funky {
-  text-shadow: 0px 0px 15px #cd17ff;
+  text-shadow: 0px 0px 15px #8f17ff;
 }
 .logo:hover .normal {
     color: #fff;
@@ -73,6 +76,10 @@
   .hamburger {
     display: block;
     width: 40px;
+  }
+
+  .navbar {
+    padding: 0.5rem 2rem;
   }
 
   .links {
