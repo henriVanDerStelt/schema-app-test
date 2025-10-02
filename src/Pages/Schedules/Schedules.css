@@ -1,61 +1,7 @@
 .schedules-page {
-  min-height: 100vh;
-  padding: 2rem 4rem 7rem 4rem;
-  display: flex;
-  flex-direction: column;
-  background-color: #202024;
-  font-family: Arial, sans-serif;
+  margin: 2rem 0;
 }
 
-.schedules-header {
-  margin-bottom: 30px;
-}
-
-.schedules-header h1 {
-  margin: 0;
-  font-size: 32px;
-  color: #eee;
-}
-
-.schedules-header p {
-  margin: 5px 0 0;
-  font-size: 16px;
-  color: #ccc;
-}
-
-.mock-schedules {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  flex-grow: 1;
-  overflow-y: auto; /* scroll if too many cards */
-}
-
-.schedule-card {
-  background: #161619;
-  padding: 20px;
-  border-radius: 12px;
-  width: 220px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.schedule-card h2 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 18px;
-  color: #6C47FF;
-}
-
-.schedule-card ul {
-  margin: 0;
-  padding-left: 20px;
-}
-
-.schedule-card li {
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: #ccc;
+.schedules-page h2 {
+  margin-left: 4rem;
 }

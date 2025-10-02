@@ -1,0 +1,32 @@
+.program-view-day {
+  margin: 20px 0;
+  padding: 1rem;
+  border: rgba(136, 136, 136, 0.2) 0.5px solid;
+  background: #19191c;
+  border-radius: 8px;
+}
+
+.program-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.program-day-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.chevron {
+
+  transition: transform 0.2s ease;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(136, 136, 136, 0.2);
+  margin: 0.8rem -1rem;
+}
+

@@ -1,0 +1,29 @@
+.program-view-exercise {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.exercise-name-input {
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #19191c;
+  font-size: 0.95rem;
+}
+
+.program-view-sets {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.set-input {
+  width: 60px;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+    background-color: #19191c;
+}

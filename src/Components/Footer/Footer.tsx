@@ -6,8 +6,9 @@ function Footer(): JSX.Element {
     <footer className="footer">
       <div className="footer-links">
         <a href="/schema-app-test/">Home</a>
-        <a href="/schema-app-test/login">Login</a>
+        <a href="/schema-app-test/schedules">Schedules</a>
         <a href="/schema-app-test/dashboard">Dashboard</a>
+        <a href="/schema-app-test/login">Sign in</a>
       </div>
       <div className="footer-info">
         <p>
