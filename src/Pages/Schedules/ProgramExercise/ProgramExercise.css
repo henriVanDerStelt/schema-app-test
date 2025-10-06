@@ -5,6 +5,24 @@
   margin-bottom: 1rem;
 }
 
+.exercise-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.exercise-name-input {
+  flex: 1;
+  border: none;
+  border-radius: 6px;
+  background-color: #19191c;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  color: white;
+  text-align: left;
+}
+
 .exercise-name-input {
   padding: 0.6rem 0.8rem;
   border: none;
@@ -15,15 +33,66 @@
 
 .program-view-sets {
   display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.2rem 0.8rem;
+  border-radius: 5px;
+  border: rgba(136, 136, 136, 0.1) 0.5px solid;
+}
+
+.set-row {
+  display: flex;
+  align-items: center;
   gap: 0.4rem;
 }
 
 .set-input {
-  width: 60px;
+  width: 80px;
   padding: 0.5rem;
   border: none;
   border-radius: 6px;
   font-size: 0.9rem;
   text-align: center;
-    background-color: #19191c;
+  background-color: #19191c;
+  color: white;
+  appearance: textfield; /* remove default styling */
+  -moz-appearance: textfield; /* Firefox */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 🔽 Hide arrows by default */
+.set-input::-webkit-inner-spin-button,
+.set-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* 🔼 Show arrows on hover */
+.set-input:hover::-webkit-inner-spin-button,
+.set-input:hover::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+/* ✨ Style the visible arrows */
+.set-input::-webkit-inner-spin-button {
+  background: linear-gradient(180deg, #2b2b2e 0%, #1d1d20 100%);
+  border-radius: 4px;
+  width: 14px;
+  height: 100%;
+}
+
+.set-input::-webkit-inner-spin-button:hover {
+  background: linear-gradient(180deg, #353538 0%, #2a2a2d 100%);
+}
+
+/* 🦊 Hide arrows in Firefox */
+.set-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.set-rpe {
+  font-size: 0.9rem;
+  color: #aaa;
 }

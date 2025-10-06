@@ -2,31 +2,32 @@ import { type JSX, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import ProgramExercise from "../ProgramExercise/ProgramExercise";
 import "./ProgramDay.css";
+import { type Day } from "../../../interfaces";
 
 interface Props {
-  dayNumber: number;
+  day: Day;
 }
 
-function ProgramDay({ dayNumber }: Props): JSX.Element {
+function ProgramDay({ day }: Props): JSX.Element {
   const [open, setOpen] = useState(true);
 
   return (
     <div className="program-view-day">
       <div className="program-day-header" onClick={() => setOpen(!open)}>
-        <h4 className="program-day-title">Day {dayNumber}</h4>
-        {open ? (
-          <ChevronDown size={12} className="chevron" />
-        ) : (
-          <ChevronRight size={12} className="chevron" />
-        )}
+        <h4 className="program-day-title">Day {day.day}</h4>
+        {open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
       </div>
 
       {open && (
         <>
           <div className="divider" />
-          <ProgramExercise name="Bench press" sets={[10, 10, 10]} />
-          <ProgramExercise name="Squat" sets={[5, 5, 5]} />
-          <ProgramExercise name="Deadlift" sets={[3, 3, 3]} />
+          {day.exercises.map((exercise) => (
+            <ProgramExercise
+              key={exercise.id}
+              name={exercise.name}
+              sets={exercise.sets}
+            />
+          ))}
         </>
       )}
     </div>
