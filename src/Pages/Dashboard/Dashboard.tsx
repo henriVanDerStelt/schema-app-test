@@ -1,6 +1,6 @@
 import "./Dashboard.css";
 
-import { type JSX, useEffect, useState } from "react";
+import { type JSX } from "react";
 
 function Dashboard(): JSX.Element {
   return (
