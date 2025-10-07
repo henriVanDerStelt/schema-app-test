@@ -11,16 +11,16 @@ function ProgramView(): JSX.Element {
     const fetchProgram = async () => {
       setLoading(true);
 
-      const { data, error } = await supabase.from("Schemas_Weeks").select(`
+      const { data, error } = await supabase.from("schemas_weeks").select(`
         id,
         week,
-        Schemas_Days (
+        schemas_days (
           id,
           day,
-          Schemas_Exercises (
+          schemas_exercises (
             id,
             name,
-            Schemas_Sets (
+            schemas_sets (
               id,
               reps,
               weight,
@@ -37,26 +37,28 @@ function ProgramView(): JSX.Element {
       }
 
       if (data) {
-        console.log("Raw data from Supabase:", data); // Debug log
+        console.log("Raw data from Supabase:", data);
 
-        // Map Supabase response to match your interfaces
         const mappedWeeks: Week[] = data.map((week: any) => ({
           id: week.id,
           week: week.week,
-          days: week.Schemas_Days.map((day: any) => ({
-            id: day.id,
-            day: day.day,
-            exercises: day.Schemas_Exercises.map((exercise: any) => ({
-              id: exercise.id,
-              name: exercise.name,
-              sets: exercise.Schemas_Sets.map((set: any) => ({
-                id: set.id,
-                reps: set.reps,
-                weight: set.weight,
-                rpe: set.rpe,
-              })),
-            })),
-          })),
+          days:
+            week.schemas_days?.map((day: any) => ({
+              id: day.id,
+              day: day.day,
+              exercises:
+                day.schemas_exercises?.map((exercise: any) => ({
+                  id: exercise.id,
+                  name: exercise.name,
+                  sets:
+                    exercise.schemas_sets?.map((set: any) => ({
+                      id: set.id,
+                      reps: set.reps,
+                      weight: set.weight,
+                      rpe: set.rpe,
+                    })) ?? [],
+                })) ?? [],
+            })) ?? [],
         }));
 
         setWeeks(mappedWeeks);

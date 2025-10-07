@@ -53,16 +53,16 @@ function Navbar(): JSX.Element {
       </button>
 
       <div ref={menuRef} className={`links ${isOpen ? "open" : ""}`}>
-        <Link to="/schema-app-test/" onClick={handleLinkClick}>
-          Home
-        </Link>
-        <Link to="/schema-app-test/schedules" onClick={handleLinkClick}>
-          Schedules
-        </Link>
-        <Link to="/schema-app-test/dashboard" onClick={handleLinkClick}>
-          Dashboard
-        </Link>
         <SignedIn>
+          <Link to="/schema-app-test/" onClick={handleLinkClick}>
+            Home
+          </Link>
+          <Link to="/schema-app-test/schedules" onClick={handleLinkClick}>
+            Schedules
+          </Link>
+          <Link to="/schema-app-test/dashboard" onClick={handleLinkClick}>
+            Dashboard
+          </Link>
           <UserButton />
         </SignedIn>
         <SignedOut>
