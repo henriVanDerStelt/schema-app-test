@@ -9,6 +9,10 @@ function Schedules(): JSX.Element {
   const [program, setProgram] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const handleUpdateProgram = (updatedProgram: any) => {
+    setProgram(updatedProgram);
+  };
+
   useEffect(() => {
     const loadProgram = async () => {
       try {
@@ -61,7 +65,11 @@ function Schedules(): JSX.Element {
       <SchedulesNavbar />
       <div className="schedules-page">
         <h2>{program.name}</h2>
-        <ProgramView program={program} onDeleteWeek={handleDeleteWeek} />
+        <ProgramView
+          program={program}
+          onDeleteWeek={handleDeleteWeek}
+          onUpdateProgram={handleUpdateProgram}
+        />
         <button className="add-week-button" onClick={handleAddWeek}>
           Add Week
         </button>

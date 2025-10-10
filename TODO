@@ -1,13 +1,23 @@
+========================
 TODO:
+
+[ ] = not done
+[-] = work in progress
+[x] = done
+========================
 
 [ ] Connect Supabase and Clerk
 [ ] Enable RLS in supabase (check the implications)
 
 [ ] Make add and delete for schemas
 [x] Make add and delete for weeks
-[ ] Make add and delete for days
-[ ] Make add and delete for exercises
-[ ] Make add and delete for sets
+[x] Make add and delete for days
+[x] Make add and delete for exercises
+[-] Make add and delete for sets
+
+[ ] Style schedules page
 
 [ ] Make all pages light/ darkmode friendly
 [ ] Make all pages responsive
+
+[ ] Make schedules and dashboard link in footer point to Login when not signed in

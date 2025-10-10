@@ -1,14 +1,23 @@
 import { type JSX } from "react";
+import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import "./Footer.css";
 
 function Footer(): JSX.Element {
   return (
     <footer className="footer">
       <div className="footer-links">
-        <a href="/schema-app-test/">Home</a>
-        <a href="/schema-app-test/schedules">Schedules</a>
-        <a href="/schema-app-test/dashboard">Dashboard</a>
-        <a href="/schema-app-test/login">Sign in</a>
+        <SignedIn>
+          <a href="/schema-app-test/">Home</a>
+          <a href="/schema-app-test/schedules">Schedules</a>
+          <a href="/schema-app-test/dashboard">Dashboard</a>
+          <a href="/schema-app-test/login">Sign in</a>
+        </SignedIn>
+        <SignedOut>
+          <a href="/schema-app-test/">Home</a>
+          <a href="/schema-app-test/login">Schedules</a>
+          <a href="/schema-app-test/login">Dashboard</a>
+          <a href="/schema-app-test/login">Sign in</a>
+        </SignedOut>
       </div>
       <div className="footer-info">
         <p>

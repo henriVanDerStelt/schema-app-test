@@ -3,6 +3,7 @@ import { type JSX, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 interface Set {
+  id: string;
   reps: number;
   weight: number;
   rpe: number;
@@ -11,10 +12,19 @@ interface Set {
 interface Props {
   name: string;
   sets: Set[];
+  onDeleteExercise?: () => void;
+  onAddSet?: () => void;
+  onDeleteSet?: (setId: number) => void;
 }
 
-function ProgramExercise({ name, sets }: Props): JSX.Element {
-  const [open, setOpen] = useState(false); // collapse state
+function ProgramExercise({
+  name,
+  sets,
+  onDeleteExercise,
+  onAddSet,
+  onDeleteSet,
+}: Props): JSX.Element {
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="program-view-exercise">
@@ -26,6 +36,15 @@ function ProgramExercise({ name, sets }: Props): JSX.Element {
           className="exercise-name-input"
           readOnly
         />
+        <button
+          className="delete-exercise-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeleteExercise?.();
+          }}
+        >
+          ×
+        </button>
         {open ? (
           <ChevronDown size={16} className="chevron" />
         ) : (
@@ -36,8 +55,8 @@ function ProgramExercise({ name, sets }: Props): JSX.Element {
       {/* Only show sets if open */}
       {open && (
         <div className="program-view-sets">
-          {sets.map((value, idx) => (
-            <div key={idx} className="set-row">
+          {sets.map((value) => (
+            <div key={value.id} className="set-row">
               <input
                 type="number"
                 defaultValue={value.reps}
@@ -50,8 +69,17 @@ function ProgramExercise({ name, sets }: Props): JSX.Element {
                 className="set-input"
               />
               <p className="set-rpe"> @ {value.rpe}</p>
+              <button
+                className="delete-set-btn"
+                onClick={() => onDeleteSet?.(Number(value.id))}
+              >
+                ×
+              </button>
             </div>
           ))}
+          <button className="add-set-btn" onClick={onAddSet}>
+            + Set
+          </button>
         </div>
       )}
     </div>
