@@ -4,7 +4,10 @@ import ProgramExercise from "../ProgramExercise/ProgramExercise";
 import "./ProgramDay.css";
 import { type Day } from "../../../interfaces";
 import { deleteDay } from "../../../Services/schemasDaysService";
-import { addExercise } from "../../../Services/schemasExercisesService";
+import {
+  addExercise,
+  deleteExercise,
+} from "../../../Services/schemasExercisesService";
 import { addSet, deleteSet } from "../../../Services/schemasSetsService";
 
 interface Props {
@@ -19,6 +22,7 @@ function ProgramDay({
   day,
   onDeleteDay,
   onAddExercise,
+  onDeleteExercise,
   onUpdateDay,
 }: Props): JSX.Element {
   const [open, setOpen] = useState(true);
@@ -46,14 +50,30 @@ function ProgramDay({
     try {
       const newSet = await addSet(exerciseId, 10, 50, 8);
 
-      onUpdateDay?.(
-        Number(day.id),
-        day.exercises.map((ex) =>
-          ex.id === exerciseId ? { ...ex, sets: [...ex.sets, newSet[0]] } : ex
-        )
+      const updatedExercises = day.exercises.map((ex) =>
+        String(ex.id) === String(exerciseId)
+          ? {
+              id: ex.id,
+              name: ex.name,
+              schemas_sets: [...(ex.sets ?? []), newSet[0]],
+            }
+          : { id: ex.id, name: ex.name, schemas_sets: ex.sets ?? [] }
       );
+
+      onUpdateDay?.(Number(day.id), updatedExercises);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleDeleteExercise = async (exerciseId: number) => {
+    try {
+      await deleteExercise(exerciseId);
+
+      // inform parent to update local UI state
+      onDeleteExercise?.(Number(day.id), exerciseId);
+    } catch (error) {
+      console.error("Error deleting exercise:", error);
     }
   };
 
@@ -61,14 +81,19 @@ function ProgramDay({
     try {
       await deleteSet(setId);
 
-      onUpdateDay?.(
-        Number(day.id),
-        day.exercises.map((ex) =>
-          Number(ex.id) === exerciseId
-            ? { ...ex, sets: ex.sets.filter((s) => Number(s.id) !== setId) }
-            : ex
-        )
+      const updatedExercises = day.exercises.map((ex) =>
+        Number(ex.id) === Number(exerciseId)
+          ? {
+              id: ex.id,
+              name: ex.name,
+              schemas_sets: (ex.sets ?? []).filter(
+                (s) => Number(s.id) !== setId
+              ),
+            }
+          : { id: ex.id, name: ex.name, schemas_sets: ex.sets ?? [] }
       );
+
+      onUpdateDay?.(Number(day.id), updatedExercises);
     } catch (error) {
       console.error(error);
     }
@@ -104,6 +129,7 @@ function ProgramDay({
               onDeleteSet={(setId) =>
                 handleDeleteSet(Number(exercise.id), setId)
               }
+              onDeleteExercise={() => handleDeleteExercise(Number(exercise.id))}
             />
           ))}
 
