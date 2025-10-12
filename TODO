@@ -6,8 +6,9 @@ TODO:
 [x] = done
 ========================
 
-[ ] Connect Supabase and Clerk
+[x] Connect Supabase and Clerk
 [ ] Enable RLS in supabase (check the implications)
+[ ] Add JWT tokens
 
 [ ] Make add and delete for schemas
 [x] Make add and delete for weeks

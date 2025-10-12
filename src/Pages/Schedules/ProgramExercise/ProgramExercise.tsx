@@ -1,11 +1,12 @@
 import "./ProgramExercise.css";
-import { type JSX, useEffect, useState } from "react";
+import { type JSX, useEffect, useState, useRef } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import Popup from "../../../Components/Popup/Popup";
 import OverflowMenu from "../../../Components/OverflowMenu/OverflowMenu";
-import { useSupabaseAuth } from "../../../supabaseClient";
+// import { useSupabaseAuth } from "../../../supabaseClient";
 import { addUserSet, updateUserSet } from "../../../Services/userSetsService";
 import { useUser } from "@clerk/clerk-react";
+import { supabase } from "../../../supabaseClient";
 
 interface Set {
   id: string;
@@ -37,22 +38,27 @@ function ProgramExercise({
   const [showPercentage, setShowPercentage] = useState(false);
   const [showRpe, setShowRpe] = useState(true);
   const { user } = useUser();
-  const { getSupabaseClient } = useSupabaseAuth();
+  // const { getSupabaseClient } = useSupabaseAuth();
   const [liftedWeights, setLiftedWeights] = useState<Record<string, string>>(
+    {}
+  );
+  // per-set save timeouts for debouncing DB writes
+  const saveTimeouts = useRef<Record<string, ReturnType<typeof setTimeout>>>(
     {}
   );
 
   useEffect(() => {
     const fetchData = async () => {
       if (!user) return;
-      const supabase = await getSupabaseClient();
+      const clerkUserId = user.id;
 
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("clerk_user_id", user.id);
+        .eq("clerk_user_id", clerkUserId);
 
       if (error) console.error("Error fetching data:", error);
+      else console.log("User data:", data);
     };
 
     fetchData();
@@ -62,7 +68,7 @@ function ProgramExercise({
   useEffect(() => {
     const fetchLiftedWeights = async () => {
       if (!user || sets.length === 0) return;
-      const supabase = await getSupabaseClient();
+      // const supabase = await getSupabaseClient();
 
       const setIds = sets.map((s) => Number(s.id));
       try {
@@ -93,21 +99,32 @@ function ProgramExercise({
     };
 
     void fetchLiftedWeights();
-  }, [user, sets, getSupabaseClient]);
+  }, [user, sets]);
 
-  // Handler that inserts/updates the usersSets row when the user types a number
-  const handleLiftedChange = async (setId: string, rawValue: string) => {
+  // Handler that schedules a debounced save for the usersSets row when the user types
+  const handleLiftedChange = (setId: string, rawValue: string) => {
     // update local input immediately for responsiveness
     setLiftedWeights((prev) => ({ ...prev, [setId]: rawValue }));
 
+    // clear any existing timeout for this set
+    const existing = saveTimeouts.current[setId];
+    if (existing) clearTimeout(existing);
+
+    // schedule a save in 2 seconds
+    saveTimeouts.current[setId] = setTimeout(() => {
+      void performSave(setId, rawValue);
+      delete saveTimeouts.current[setId];
+    }, 2000);
+  };
+
+  // actual save logic that runs after debounce
+  const performSave = async (setId: string, rawValue: string) => {
     // accept empty string (don't store) or numeric values
     if (rawValue === "") return;
     const parsed = Number(rawValue);
     if (Number.isNaN(parsed)) return;
 
     if (!user) return;
-
-    const supabase = await getSupabaseClient();
 
     try {
       // check for existing entry for this user + set
@@ -143,6 +160,13 @@ function ProgramExercise({
       console.error(err);
     }
   };
+
+  // clear any pending timeouts on unmount
+  useEffect(() => {
+    return () => {
+      Object.values(saveTimeouts.current).forEach((t) => clearTimeout(t));
+    };
+  }, []);
 
   const toggleShowPercentage = () => {
     setShowPercentage((prev) => {
@@ -217,7 +241,15 @@ function ProgramExercise({
                 <p className="set-rpe"> @ {value.rpe}</p>
               ) : null}
               <div className="lifted-weight">
-                <input type="text" />
+                <input
+                  type="text"
+                  className="set-input lifted-input"
+                  value={liftedWeights[value.id] ?? ""}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    void handleLiftedChange(value.id, v);
+                  }}
+                />
               </div>
               <button
                 className="delete-set-btn"
