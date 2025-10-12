@@ -6,7 +6,6 @@ TODO:
 [x] = done
 ========================
 
-[x] Connect Supabase and Clerk
 [ ] Enable RLS in supabase (check the implications)
 [ ] Add JWT tokens
 
@@ -36,3 +35,4 @@ DONE
 ========================
 [x] Make schedules and dashboard link in footer point to Login when not signed in
 [x] dropdown menu for exercise: show Percentage, show RPE, |, Rename, Delete
+[x] Connect Supabase and Clerk
