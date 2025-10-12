@@ -1,5 +1,4 @@
 import "./Login.css";
-
 import { type JSX } from "react";
 import { SignedOut, SignIn } from "@clerk/clerk-react";
 

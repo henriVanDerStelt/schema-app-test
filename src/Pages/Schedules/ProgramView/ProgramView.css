@@ -20,7 +20,7 @@
 }
 
 .program-view-container::-webkit-scrollbar-thumb {
-  background-color: rgba(108, 71, 255, 0.4);
+  background-color: rgba(136, 136, 136, 0.3);
   border-radius: 9999px;
 }
 

@@ -1,8 +1,11 @@
 import "./ProgramExercise.css";
-import { type JSX, useState } from "react";
+import { type JSX, useEffect, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import Popup from "../../../Components/Popup/Popup";
 import OverflowMenu from "../../../Components/OverflowMenu/OverflowMenu";
+import { useSupabaseAuth } from "../../../supabaseClient";
+import { addUserSet, updateUserSet } from "../../../Services/userSetsService";
+import { useUser } from "@clerk/clerk-react";
 
 interface Set {
   id: string;
@@ -33,6 +36,114 @@ function ProgramExercise({
   const [newRpe, setNewRpe] = useState<number>(8);
   const [showPercentage, setShowPercentage] = useState(false);
   const [showRpe, setShowRpe] = useState(true);
+  const { user } = useUser();
+  const { getSupabaseClient } = useSupabaseAuth();
+  const [liftedWeights, setLiftedWeights] = useState<Record<string, string>>(
+    {}
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!user) return;
+      const supabase = await getSupabaseClient();
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("clerk_user_id", user.id);
+
+      if (error) console.error("Error fetching data:", error);
+    };
+
+    fetchData();
+  }, [user]);
+
+  // Fetch existing user-set entries for the current sets so we can prefill the lifted-weight inputs
+  useEffect(() => {
+    const fetchLiftedWeights = async () => {
+      if (!user || sets.length === 0) return;
+      const supabase = await getSupabaseClient();
+
+      const setIds = sets.map((s) => Number(s.id));
+      try {
+        const { data, error } = await supabase
+          .from("usersSets")
+          .select("id, set_id, weight_lifted")
+          .in("set_id", setIds)
+          .eq("clerk_user_id", user.id);
+
+        if (error) {
+          console.error("Error fetching usersSets:", error);
+          return;
+        }
+
+        if (!data) return;
+
+        const map: Record<string, string> = {};
+        data.forEach((row: any) => {
+          // store by set_id (string) so we can easily index by Set.id
+          map[String(row.set_id)] =
+            row.weight_lifted != null ? String(row.weight_lifted) : "";
+        });
+
+        setLiftedWeights(map);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    void fetchLiftedWeights();
+  }, [user, sets, getSupabaseClient]);
+
+  // Handler that inserts/updates the usersSets row when the user types a number
+  const handleLiftedChange = async (setId: string, rawValue: string) => {
+    // update local input immediately for responsiveness
+    setLiftedWeights((prev) => ({ ...prev, [setId]: rawValue }));
+
+    // accept empty string (don't store) or numeric values
+    if (rawValue === "") return;
+    const parsed = Number(rawValue);
+    if (Number.isNaN(parsed)) return;
+
+    if (!user) return;
+
+    const supabase = await getSupabaseClient();
+
+    try {
+      // check for existing entry for this user + set
+      const { data: existing, error: selectError } = await supabase
+        .from("usersSets")
+        .select("*")
+        .eq("clerk_user_id", user.id)
+        .eq("set_id", Number(setId))
+        .limit(1);
+
+      if (selectError) {
+        console.error("Error checking usersSets:", selectError);
+        return;
+      }
+
+      if (existing && existing.length > 0) {
+        // update existing
+        const userSetId = existing[0].id;
+        try {
+          await updateUserSet(userSetId, parsed);
+        } catch (err) {
+          console.error("Failed to update user set:", err);
+        }
+      } else {
+        // insert new
+        try {
+          await addUserSet(user.id, Number(setId), parsed);
+        } catch (err) {
+          console.error("Failed to add user set:", err);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const toggleShowPercentage = () => {
     setShowPercentage((prev) => {
       const next = !prev;
@@ -100,7 +211,14 @@ function ProgramExercise({
                 defaultValue={value.weight}
                 className="set-input"
               />
-              <p className="set-rpe"> @ {value.rpe}</p>
+              {showPercentage ? (
+                <p className="set-percentage">90 %</p>
+              ) : showRpe ? (
+                <p className="set-rpe"> @ {value.rpe}</p>
+              ) : null}
+              <div className="lifted-weight">
+                <input type="text" />
+              </div>
               <button
                 className="delete-set-btn"
                 onClick={() => onDeleteSet?.(Number(value.id))}

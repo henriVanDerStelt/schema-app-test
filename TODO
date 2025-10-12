@@ -15,16 +15,20 @@ TODO:
 [x] Make add and delete for exercises
 [x] Make add and delete for sets
 
-[ ] Style schedules page
+[-] Style schedules page
+[ ] Make program-view div scrollable by click and drag
 
-[ ] Make all pages light/ darkmode friendly
+[-] Make all pages light/ darkmode friendly
 [x] Make footer light/ darkmode
-[ ] Make all pages responsive
+[-] Make all pages responsive
 
 [ ] Add schedules navbar
 
 [ ] andere accounts als vriend toevoegen
 [ ] Leaderboard voor vrienden
+
+[ ] add muscle groups to exercises
+[ ] add short sumary of exercise when closed, ex.: from "Bench press" to "Bench press 3 x 5"
 
 ========================
 DONE

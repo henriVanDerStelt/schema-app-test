@@ -61,12 +61,15 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-image: linear-gradient(to top, #161619 0%, #202024 100%);
+  border: #202024 1px solid;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: 0.3s;
 }
 button:hover {
-  border-color: #646cff;
+  /* border-color: #646cff; */
+  border: #161619 1px solid;
+  background-image: linear-gradient(to top, #202024 0%, #161619 100%);
 }
 button:focus,
 button:focus-visible {
@@ -75,7 +78,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #161619;
     background-color: #ffffff;
   }
   a:hover {
