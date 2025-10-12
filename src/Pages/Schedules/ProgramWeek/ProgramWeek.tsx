@@ -45,9 +45,6 @@ function ProgramWeek({
     <div className="program-view-card">
       <div className="week-header">
         <h3>Week {week.week}</h3>
-        <button className="add-day-btn" onClick={handleAddDay}>
-          + Day
-        </button>
         <button className="delete-week-btn" onClick={handleDeleteClick}>
           x
         </button>
@@ -67,6 +64,9 @@ function ProgramWeek({
           onUpdateDay={onUpdateDay}
         />
       ))}
+      <button className="add-day-btn" onClick={handleAddDay}>
+        + Day
+      </button>
     </div>
   );
 }

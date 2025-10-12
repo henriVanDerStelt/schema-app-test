@@ -1,6 +1,36 @@
 .program-view-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  display: flex;
+  flex-direction: row;
   gap: 1.5rem;
   margin: 2rem 4rem;
+  overflow-x: auto;          /* enables horizontal scrolling */
+  overflow-y: hidden;
+  scroll-behavior: smooth;   /* nice smooth scroll */
+  padding-bottom: 1rem;      /* a bit of space for scrollbar */
+  scroll-snap-type: x mandatory;
+}
+
+.program-view-container > * {
+  scroll-snap-align: start;
+}
+
+/* optional: hide scrollbar (for clean look) */
+.program-view-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.program-view-container::-webkit-scrollbar-thumb {
+  background-color: rgba(108, 71, 255, 0.4);
+  border-radius: 9999px;
+}
+
+.program-view-container::-webkit-scrollbar-track {
+  background: rgba(136, 136, 136, 0.1);
+}
+
+@media (max-width: 768px) {
+  .program-view-container {
+    margin: 1rem 0.8rem;
+    gap: 1rem;
+  }
 }

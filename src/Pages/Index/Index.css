@@ -61,3 +61,21 @@
     text-align: center;
   }
 }
+
+@media (prefers-color-scheme: light) {
+  .index-content {
+    background-color: #f8f8f8;
+    border: 3px dashed #00000011;
+  }
+
+  .index .text {
+    background: linear-gradient(90deg, #6C47FF, #b917ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  }
+
+  .index img {
+    opacity: 0.85;
+  }
+}

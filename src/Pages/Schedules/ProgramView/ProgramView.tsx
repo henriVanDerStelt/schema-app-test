@@ -1,5 +1,6 @@
 import { type JSX } from "react";
 import ProgramWeek from "../ProgramWeek/ProgramWeek";
+import "./ProgramView.css";
 
 interface ProgramViewProps {
   program: any;

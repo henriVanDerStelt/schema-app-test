@@ -9,12 +9,19 @@ import {
   deleteExercise,
 } from "../../../Services/schemasExercisesService";
 import { addSet, deleteSet } from "../../../Services/schemasSetsService";
+import Popup from "../../../Components/Popup/Popup";
 
 interface Props {
   day: Day;
   onDeleteDay?: (dayId: number) => void;
   onAddExercise?: (dayId: number, newExercise: any) => void;
   onDeleteExercise?: (dayId: number, exerciseId: number) => void;
+  onAddSet?: (
+    exerciseId: string,
+    reps: number,
+    weight: number,
+    rpe: number
+  ) => void;
   onUpdateDay?: (dayId: number, updatedExercises: any[]) => void;
 }
 
@@ -26,6 +33,8 @@ function ProgramDay({
   onUpdateDay,
 }: Props): JSX.Element {
   const [open, setOpen] = useState(true);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [newExerciseName, setNewExerciseName] = useState("");
 
   const handleDeleteDay = async () => {
     try {
@@ -36,19 +45,34 @@ function ProgramDay({
     }
   };
 
-  const handleAddExercise = async () => {
+  const openAddExercisePopup = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setNewExerciseName("");
+    setIsPopupOpen(true);
+  };
+
+  const confirmAddExercise = async () => {
+    const name = newExerciseName.trim();
+    if (!name) return;
     try {
-      const newExerciseName = "New Exercise";
-      const newExercise = await addExercise(Number(day.id), newExerciseName);
+      const newExercise = await addExercise(Number(day.id), name);
       onAddExercise?.(Number(day.id), newExercise[0]);
+      setIsPopupOpen(false);
+      setNewExerciseName("");
     } catch (error) {
       console.error("Error adding exercise:", error);
     }
   };
 
-  const handleAddSet = async (exerciseId: string) => {
+  // new signature: callers will pass reps, weight, rpe
+  const handleAddSetWithValues = async (
+    exerciseId: string,
+    reps: number,
+    weight: number,
+    rpe: number
+  ) => {
     try {
-      const newSet = await addSet(exerciseId, 10, 50, 8);
+      const newSet = await addSet(exerciseId, reps, weight, rpe);
 
       const updatedExercises = day.exercises.map((ex) =>
         String(ex.id) === String(exerciseId)
@@ -125,7 +149,9 @@ function ProgramDay({
               key={exercise.id}
               name={exercise.name}
               sets={exercise.sets} // <- just pass the array directly
-              onAddSet={() => handleAddSet(exercise.id)}
+              onAddSet={(reps, weight, rpe) =>
+                handleAddSetWithValues(exercise.id, reps, weight, rpe)
+              }
               onDeleteSet={(setId) =>
                 handleDeleteSet(Number(exercise.id), setId)
               }
@@ -133,9 +159,43 @@ function ProgramDay({
             />
           ))}
 
-          <button className="add-exercise-btn" onClick={handleAddExercise}>
+          <button
+            className="add-exercise-btn"
+            onClick={(e) =>
+              openAddExercisePopup(e as unknown as React.MouseEvent)
+            }
+          >
             + Exercise
           </button>
+
+          {isPopupOpen && (
+            <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <label>Exercise name</label>
+                <input
+                  autoFocus
+                  type="text"
+                  value={newExerciseName}
+                  onChange={(e) => setNewExerciseName(e.target.value)}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 8,
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <button onClick={() => setIsPopupOpen(false)}>Cancel</button>
+                  <button
+                    onClick={confirmAddExercise}
+                    disabled={newExerciseName.trim() === ""}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </Popup>
+          )}
         </>
       )}
     </div>

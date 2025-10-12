@@ -1,6 +1,6 @@
 import "./Schedules.css";
 import { type JSX, useEffect, useState } from "react";
-import SchedulesNavbar from "./SchedulesNavbar/SchedulesNavbar";
+// import SchedulesNavbar from "./SchedulesNavbar/SchedulesNavbar";
 import ProgramView from "./ProgramView/ProgramView";
 import { fetchProgram } from "../../Services/schemasService";
 import { addWeek, deleteWeek } from "../../Services/schemasWeeksService";
@@ -62,17 +62,17 @@ function Schedules(): JSX.Element {
 
   return (
     <>
-      <SchedulesNavbar />
+      {/* <SchedulesNavbar /> */}
       <div className="schedules-page">
         <h2>{program.name}</h2>
+        <button className="add-week-button" onClick={handleAddWeek}>
+          Add Week
+        </button>
         <ProgramView
           program={program}
           onDeleteWeek={handleDeleteWeek}
           onUpdateProgram={handleUpdateProgram}
         />
-        <button className="add-week-button" onClick={handleAddWeek}>
-          Add Week
-        </button>
       </div>
     </>
   );
