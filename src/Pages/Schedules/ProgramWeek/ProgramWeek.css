@@ -12,6 +12,13 @@
   margin-bottom: 1rem;
 }
 
+.week-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 @media (max-width: 768px) {
   .program-view-card {
     min-width: 93vw;

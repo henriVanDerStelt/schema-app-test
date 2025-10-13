@@ -30,13 +30,14 @@ function ProgramExercise({
   onAddSet,
   onDeleteSet,
 }: Props): JSX.Element {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [isAddSetOpen, setIsAddSetOpen] = useState(false);
   const [newReps, setNewReps] = useState<number>(10);
   const [newWeight, setNewWeight] = useState<number>(50);
   const [newRpe, setNewRpe] = useState<number>(8);
   const [showPercentage, setShowPercentage] = useState(false);
   const [showRpe, setShowRpe] = useState(true);
+  const [isEditMode, setIsEditMode] = useState(false);
   const { user } = useUser();
   // const { getSupabaseClient } = useSupabaseAuth();
   const [liftedWeights, setLiftedWeights] = useState<Record<string, string>>(
@@ -205,6 +206,10 @@ function ProgramExercise({
                   action: toggleShowRpe,
                 },
                 { divider: true },
+                {
+                  label: isEditMode ? "Done editing" : "Edit",
+                  action: () => setIsEditMode((prev) => !prev),
+                },
                 { label: "Rename", action: () => console.log("rename (todo)") },
                 { label: "Delete", action: () => onDeleteExercise?.() },
               ]}
@@ -227,7 +232,7 @@ function ProgramExercise({
               <input
                 type="number"
                 defaultValue={value.reps}
-                className="set-input"
+                className="set-input reps"
               />
               <p className="set-reps">x</p>
               <input
@@ -236,9 +241,9 @@ function ProgramExercise({
                 className="set-input"
               />
               {showPercentage ? (
-                <p className="set-percentage">90 %</p>
+                <p className="set-percentage">90%</p>
               ) : showRpe ? (
-                <p className="set-rpe"> @ {value.rpe}</p>
+                <p className="set-rpe">@ {value.rpe}</p>
               ) : null}
               <div className="lifted-weight">
                 <input
@@ -251,12 +256,14 @@ function ProgramExercise({
                   }}
                 />
               </div>
-              <button
-                className="delete-set-btn"
-                onClick={() => onDeleteSet?.(Number(value.id))}
-              >
-                ×
-              </button>
+              {isEditMode && (
+                <button
+                  className="delete-set-btn delete-btn"
+                  onClick={() => onDeleteSet?.(Number(value.id))}
+                >
+                  ×
+                </button>
+              )}
             </div>
           ))}
           <button

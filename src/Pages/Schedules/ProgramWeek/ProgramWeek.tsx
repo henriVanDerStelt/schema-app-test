@@ -45,7 +45,10 @@ function ProgramWeek({
     <div className="program-view-card">
       <div className="week-header">
         <h3>Week {week.week}</h3>
-        <button className="delete-week-btn" onClick={handleDeleteClick}>
+        <button
+          className="delete-week-btn delete-btn"
+          onClick={handleDeleteClick}
+        >
           x
         </button>
       </div>

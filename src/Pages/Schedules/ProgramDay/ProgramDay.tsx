@@ -129,7 +129,7 @@ function ProgramDay({
         <h4 className="program-day-title">Day {day.day}</h4>
         <div className="day-buttons">
           <button
-            className="delete-day-btn"
+            className="delete-day-btn delete-btn"
             onClick={(e) => {
               e.stopPropagation();
               handleDeleteDay();

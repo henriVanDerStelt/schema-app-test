@@ -66,7 +66,7 @@ function Schedules(): JSX.Element {
       <div className="schedules-page">
         <h2>{program.name}</h2>
         <button className="add-week-button" onClick={handleAddWeek}>
-          Add Week
+          + Week
         </button>
         <ProgramView
           program={program}

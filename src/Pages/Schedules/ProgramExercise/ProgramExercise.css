@@ -64,58 +64,58 @@
 }
 
 .set-input {
-  width: 80px;
-  padding: 0.5rem;
+  width: 65px;
+  padding: 0rem 0rem;
+  margin: 0;
+  height: 32px;
+  box-sizing: border-box;
   border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  line-height: 1rem;
   text-align: center;
   background-color: #19191c;
   color: white;
-  appearance: textfield; /* remove default styling */
-  -moz-appearance: textfield; /* Firefox */
+  appearance: none; /* remove default styling */
+  -moz-appearance: none; /* Firefox */
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* 🔽 Hide arrows by default */
+.lifted-input {
+  border: 1px solid #202024;
+}
+
+.reps {
+  width: 30px;
+}
+
+/* Hide native number input spin buttons completely so they don't overlap text */
 .set-input::-webkit-inner-spin-button,
 .set-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
+  display: none;
   margin: 0;
-  opacity: 0;
-  transition: opacity 0.2s ease;
 }
 
-/* 🔼 Show arrows on hover */
-.set-input:hover::-webkit-inner-spin-button,
-.set-input:hover::-webkit-outer-spin-button {
-  opacity: 1;
-}
-
-/* ✨ Style the visible arrows */
-.set-input::-webkit-inner-spin-button {
-  background: linear-gradient(180deg, #2b2b2e 0%, #1d1d20 100%);
-  border-radius: 4px;
-  width: 14px;
-  height: 100%;
-}
-
-.set-input::-webkit-inner-spin-button:hover {
-  background: linear-gradient(180deg, #353538 0%, #2a2a2d 100%);
-}
-
-/* 🦊 Hide arrows in Firefox */
+/* Firefox */
 .set-input[type="number"] {
-  appearance: textfield;
+  appearance: none;
   -moz-appearance: textfield;
 }
 
-.set-rpe {
-  font-size: 0.9rem;
-  color: #aaa;
+.set-reps {
+  width: 40px;
+  text-align: center;
+  color: #bbb;
 }
 
+.set-rpe,
 .set-percentage {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: #aaa;
-} 
+  white-space: nowrap; /* keep on one line */
+  overflow: hidden; /* avoid wrapping to multiple lines */
+  text-overflow: ellipsis; /* show ... if too long */
+  display: inline-block;
+  max-width: 8.5rem; /* limit width so ellipsis can apply without breaking layout */
+  align-self: center;
+}
