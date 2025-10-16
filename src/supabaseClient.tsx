@@ -11,11 +11,29 @@ export const useSupabaseAuth = () => {
   const { getToken } = useAuth();
 
   const getSupabaseClient = async () => {
-    const token = await getToken({ template: "supabase" });
+    try {
+      // First try the named template commonly used for Supabase JWTs
+      const token = await getToken({ template: "supabase" });
+      return createClient(supabaseUrl, supabaseAnonKey, {
+        global: { headers: { Authorization: `Bearer ${token}` } },
+      });
+    } catch (err) {
+      // If the Clerk project doesn't have that JWT template configured
+      // fall back to trying a default token and finally to an unauthenticated client.
+      try {
+        const fallbackToken = await getToken();
+        if (fallbackToken) {
+          return createClient(supabaseUrl, supabaseAnonKey, {
+            global: { headers: { Authorization: `Bearer ${fallbackToken}` } },
+          });
+        }
+      } catch (err2) {
+        // ignore and continue to return anon client
+      }
 
-    return createClient(supabaseUrl, supabaseAnonKey, {
-      global: { headers: { Authorization: `Bearer ${token}` } },
-    });
+      // As a last resort return the anonymous client (no Authorization header).
+      return createClient(supabaseUrl, supabaseAnonKey);
+    }
   };
 
   return { getSupabaseClient };
